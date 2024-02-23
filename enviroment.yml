@@ -1,0 +1,13 @@
+name: food_desert_project
+channels:
+  - conda-forge
+dependencies:
+  - python=3.9
+  - jupyterlab
+  - pandas
+  - beautifulsoup4
+  - requests
+  - plotly
+  - geopandas
+  - pip:
+      - nominatim
