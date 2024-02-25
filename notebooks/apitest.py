@@ -1,5 +1,6 @@
 import os
 import json
+import pandas as pd
 from yelpapi import YelpAPI
 
 # Reading your API key from config.json
@@ -15,14 +16,20 @@ def search_yelp(location, search_term):
     with YelpAPI(api_key) as yelp_api:
         search_results = yelp_api.search_query(term=search_term, location=location)
 
-        # Process the 'search_results' as needed
-        # Example (assuming results contains store data):
-        stores = search_results['businesses']  # Adjust based on actual results format
-        return stores
+    results = []
+    for store in search_results['businesses']:
+        results.append({
+            'name': store['name'],
+            'address': store['location']['display_address'], 
+            'rating': store['rating'],
+            'price': store.get('price', 'Price Unavailable'),
+            'phone': store['phone'],
+            'latitude': store['coordinates']['latitude'],  
+            'longitude': store['coordinates']['longitude'],  
+            'yelp_url': store['url'] 
+        })
+    return pd.DataFrame(results)
 
 # Example Usage:
-stores = search_yelp('Minneapolis, MN', 'grocery store')
-
-# Do something with the stores data 
-for store in stores:
-    print(store['name']) # Example - Access the data you need
+stores_df = search_yelp('Minneapolis, MN', 'grocery store')
+print(stores_df)
