@@ -21,3 +21,8 @@ def search_yelp(location, search_term):
         return stores
 
 # Example Usage:
+stores = search_yelp('Minneapolis, MN', 'grocery store')
+
+# Do something with the stores data 
+for store in stores:
+    print(store['name']) # Example - Access the data you need
